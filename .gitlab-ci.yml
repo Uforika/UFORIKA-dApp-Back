@@ -1,0 +1,163 @@
+stages:
+  - 🚦 test
+  - 📦 package
+  - 👀 review
+  - 🚀 staging
+  - 🚀 production
+  - 🛀 cleanup
+
+.docker_login:
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+.cache:
+  cache:
+    paths:
+      - node_modules/
+
+##############################
+#         🚦 TEST 🚦         #
+##############################
+
+.test:
+  stage: 🚦 test
+  extends:
+    - .cache
+  before_script:
+    - yarn install --frozen-lockfile
+  tags:
+    - pp-shell
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /master/
+      when: always
+    - if: $CI_COMMIT_REF_NAME =~ /develop/
+      when: always
+    - if: $CI_MERGE_REQUEST_ID
+      when: always
+
+🚦 audit:
+  extends: .test
+  script:
+    - yarn run audit
+    - yarn lint
+
+##############################
+#       📦 PACKAGE 📦        #
+##############################
+
+build:
+  stage: 📦 package
+  extends:
+    - .docker_login
+  script: &build
+    - docker pull $CI_REGISTRY_IMAGE:$(git rev-parse  HEAD^ | cut -c1-8) || true
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_BEFORE_SHA:0:8} || true
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_SHORT_SHA} || true
+    - docker pull $CI_REGISTRY_IMAGE:${CI_DEFAULT_BRANCH} || true
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME} || true
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  tags:
+    - pp-builder
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /master/
+      when: always
+    - if: $CI_COMMIT_REF_NAME =~ /develop/
+      when: always
+    - if: $CI_COMMIT_MESSAGE =~ /dev-deploy/ && $CI_MERGE_REQUEST_ID
+      when: always
+    - if: $CI_COMMIT_MESSAGE =~ /stage-deploy/ && $CI_MERGE_REQUEST_ID
+      when: always
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+    - when: never
+
+###############################
+##       🚀 DEPLOY 🚀        ##
+###############################
+
+.deploy:
+  extends:
+    - .docker_login
+  variables:
+    IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    NODE_CONFIG_ENV: $CI_ENVIRONMENT_NAME
+    COMPOSE_ARGS: -f docker-compose.postgres.yml
+  script:
+    - export WEB_PORT=2${CI_PROJECT_ROOT_NAMESPACE:0:3}0
+    - docker-compose -p ${CI_PROJECT_ROOT_NAMESPACE}-backend -f docker-compose.deploy.yml ${COMPOSE_ARGS} pull
+    - docker-compose -p ${CI_PROJECT_ROOT_NAMESPACE}-backend -f docker-compose.deploy.yml ${COMPOSE_ARGS} up -d
+
+🚀 develop:
+  extends: .deploy
+  stage: 🚀 staging
+  environment:
+    name: develop
+    url: https://${CI_PROJECT_ROOT_NAMESPACE}.pixelplex-test.by
+  tags:
+    - pp-new-develop
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /develop/
+      when: on_success
+    - if: $CI_COMMIT_REF_NAME =~ /master/
+      when: manual
+    - if: $CI_COMMIT_MESSAGE =~ /dev-deploy/ && $CI_MERGE_REQUEST_ID
+      when: on_success
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+      allow_failure: true
+    - if: $CI_COMMIT_TAG != null
+      when: manual
+      allow_failure: true
+    - when: never
+
+🚀 master:
+  extends: .deploy
+  stage: 🚀 staging
+  environment:
+    name: master
+    url: https://${CI_PROJECT_ROOT_NAMESPACE}.pixelplexlabs.com
+  tags:
+    - pp-projects
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /master/
+      when: on_success
+    - if: $CI_COMMIT_REF_NAME =~ /develop/
+      when: manual
+    - if: $CI_COMMIT_MESSAGE =~ /stage-deploy/ && $CI_MERGE_REQUEST_ID
+      when: on_success
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+      allow_failure: true
+    - if: $CI_COMMIT_TAG != null
+      when: on_success
+    - when: never
+
+tag:
+  stage: 📦 package
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+  tags:
+    - pp-builder
+  only:
+    - tags
+#🚀 production:
+#  extends: .deploy
+#  stage: 🚀 production
+#  variables:
+#    COMPOSE_ARGS: -f docker-compose.production.yml
+#  environment:
+#    name: production
+#    url: https://site.com/api
+#  tags:
+#    - site-prod
+#  only:
+#    - tags
+#  when: manual

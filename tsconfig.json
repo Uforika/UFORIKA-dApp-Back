@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": false,
+    "paths": {
+      "@libs/constants": ["libs/constants/src"],
+      "@libs/constants/*": ["libs/constants/src/*"],
+      "@libs/exceptions": ["libs/exceptions/src", "libs/exceptions/src"],
+      "@libs/exceptions/*": ["libs/exceptions/src/*", "libs/exceptions/src/*"],
+      "@libs/entities": ["libs/entities/src"],
+      "@libs/entities/*": ["libs/entities/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

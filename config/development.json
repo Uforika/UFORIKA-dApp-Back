@@ -1,0 +1,21 @@
+{
+  "CORS": true,
+  "SENTRY": {
+    "ENABLED": false
+  },
+  "POSTGRES": {
+    "HOST": "localhost",
+    "USERNAME": "postgres",
+    "PASSWORD": "root",
+    "PORT": 29992,
+    "DB": "dbname",
+    "RETRY_ATTEMPTS": 15,
+    "RETRY_DELAY": 1000
+  },
+  "API": {
+    "URL": "https://localhost:3001"
+  },
+  "AMQP": {
+    "URLS": ["amqp://guest:guest@127.0.0.1:5672"]
+  }
+}

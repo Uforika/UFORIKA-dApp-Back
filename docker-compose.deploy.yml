@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  api:
+    image: $IMAGE
+    restart: always
+    env_file:
+      - ./Dockerenv/general.env
+      - ./Dockerenv/$NODE_CONFIG_ENV.env
+    command: yarn start:api:prod
+    environment:
+      - NODE_CONFIG_ENV
+      - POSTGRES_PASSWORD
+      - AMQP_URLS=["amqp://guest:${AMQP_PASSWORD}@rabbitmq:5672"]
+    ports:
+      - '29991:3000'

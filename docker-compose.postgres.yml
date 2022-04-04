@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  api:
+    depends_on:
+      - postgres
+
+  postgres:
+    restart: always
+    image: postgres
+    ports:
+      - 29996:5432
+    environment:
+      - POSTGRES_DB=xtingles
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:

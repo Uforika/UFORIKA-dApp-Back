@@ -1,0 +1,15 @@
+{
+  "CORS": true,
+  "SENTRY": {
+    "ENABLED": true
+  },
+  "POSTGRES": {
+    "HOST": "localhost",
+    "USERNAME": "postgres",
+    "PASSWORD": "",
+    "PORT": 5432,
+    "DB": "databasename",
+    "RETRY_ATTEMPTS": 15,
+    "RETRY_DELAY": 1000
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "CORS": true,
+  "SENTRY": {
+    "ENABLED": true,
+    "DSN": ""
+  }
+}
