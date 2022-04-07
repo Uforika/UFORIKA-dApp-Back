@@ -1,5 +1,6 @@
 {
   "CORS": true,
+  "CHAIN_ID": 3,
   "SENTRY": {
     "ENABLED": false,
     "DSN": ""
@@ -9,11 +10,14 @@
     "USERNAME": "postgres",
     "PASSWORD": "",
     "PORT": 5432,
-    "DB": "databasename",
+    "DB": "uforika",
     "RETRY_ATTEMPTS": 15,
     "RETRY_DELAY": 1000
   },
   "API": {
     "PORT": 3001
+  },
+  "AUTH": {
+    "SECRET": "pPn1RzYVEYS06DAC4rZW"
   }
 }

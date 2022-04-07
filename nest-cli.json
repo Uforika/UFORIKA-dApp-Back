@@ -37,6 +37,33 @@
       "compilerOptions": {
         "tsConfigPath": "libs/exceptions/tsconfig.lib.json"
       }
+    },
+    "auth": {
+      "type": "library",
+      "root": "libs/auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/auth/tsconfig.lib.json"
+      }
+    },
+    "web3": {
+      "type": "library",
+      "root": "libs/web3",
+      "entryFile": "index",
+      "sourceRoot": "libs/web3/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/web3/tsconfig.lib.json"
+      }
+    },
+    "repositories": {
+      "type": "library",
+      "root": "libs/repositories",
+      "entryFile": "index",
+      "sourceRoot": "libs/repositories/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/repositories/tsconfig.lib.json"
+      }
     }
   },
   "compilerOptions": {

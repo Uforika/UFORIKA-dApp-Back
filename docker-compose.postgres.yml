@@ -9,9 +9,9 @@ services:
     restart: always
     image: postgres
     ports:
-      - 29996:5432
+      - 27856:5432
     environment:
-      - POSTGRES_DB=xtingles
+      - POSTGRES_DB=uforika
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD
     volumes:

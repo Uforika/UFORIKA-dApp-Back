@@ -19,7 +19,13 @@
       "@libs/exceptions": ["libs/exceptions/src", "libs/exceptions/src"],
       "@libs/exceptions/*": ["libs/exceptions/src/*", "libs/exceptions/src/*"],
       "@libs/entities": ["libs/entities/src"],
-      "@libs/entities/*": ["libs/entities/src/*"]
+      "@libs/entities/*": ["libs/entities/src/*"],
+      "@libs/auth": ["libs/auth/src"],
+      "@libs/auth/*": ["libs/auth/src/*"],
+      "@libs/web3": ["libs/web3/src"],
+      "@libs/web3/*": ["libs/web3/src/*"],
+      "@libs/repositories": ["libs/repositories/src"],
+      "@libs/repositories/*": ["libs/repositories/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

@@ -1,5 +1,6 @@
 {
   "CORS": true,
+  "CHAIN_ID": 1,
   "SENTRY": {
     "ENABLED": true
   },
@@ -11,5 +12,8 @@
     "DB": "databasename",
     "RETRY_ATTEMPTS": 15,
     "RETRY_DELAY": 1000
+  },
+  "AUTH": {
+    "SECRET": ""
   }
 }

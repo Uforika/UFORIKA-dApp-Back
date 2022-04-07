@@ -7,8 +7,8 @@
     "HOST": "localhost",
     "USERNAME": "postgres",
     "PASSWORD": "root",
-    "PORT": 29992,
-    "DB": "dbname",
+    "PORT": 27856,
+    "DB": "uforika",
     "RETRY_ATTEMPTS": 15,
     "RETRY_DELAY": 1000
   },

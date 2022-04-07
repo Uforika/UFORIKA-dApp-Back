@@ -1,5 +1,0 @@
-api:
-  extends: .build
-  only:
-    - develop
-    - master

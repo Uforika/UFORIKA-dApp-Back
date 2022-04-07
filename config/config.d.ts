@@ -1,5 +1,6 @@
 declare module 'config' {
   export const CORS: boolean;
+  export const CHAIN_ID: number;
 
   export const POSTGRES: {
     readonly HOST: string;
@@ -13,6 +14,10 @@ declare module 'config' {
 
   export const API: {
     readonly PORT: number;
+  };
+
+  export const AUTH: {
+    readonly SECRET: string;
   };
 
   export const SENTRY: {

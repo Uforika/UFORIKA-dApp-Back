@@ -13,4 +13,4 @@ services:
       - POSTGRES_PASSWORD
       - AMQP_URLS=["amqp://guest:${AMQP_PASSWORD}@rabbitmq:5672"]
     ports:
-      - '29991:3000'
+      - '127.0.0.1:27851:3000'
