@@ -3,5 +3,8 @@
   "SENTRY": {
     "ENABLED": true,
     "DSN": ""
+  },
+  "POSTGRES": {
+    "HOST": "postgres"
   }
 }
