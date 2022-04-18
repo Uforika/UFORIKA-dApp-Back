@@ -1,0 +1,10 @@
+{
+  "name": "@782-uforika/client-sdk",
+  "version": "0.2.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "peerDependencies": {
+    "swr": "^1.2.1",
+    "react": "^17.0.2"
+  }
+}

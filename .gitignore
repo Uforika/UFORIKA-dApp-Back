@@ -40,3 +40,5 @@ dump.rdb
 .env
 docker-compose-work.yml
 add_enviroment
+
+libs/client-sdk/src

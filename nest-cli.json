@@ -64,6 +64,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/repositories/tsconfig.lib.json"
       }
+    },
+    "client-sdk": {
+      "type": "library",
+      "root": "libs/client-sdk",
+      "entryFile": "index",
+      "sourceRoot": "libs/client-sdk/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/client-sdk/tsconfig.lib.json"
+      }
     }
   },
   "compilerOptions": {

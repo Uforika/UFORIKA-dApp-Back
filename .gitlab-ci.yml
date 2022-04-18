@@ -5,6 +5,7 @@ stages:
   - 🚀 staging
   - 🚀 production
   - 🛀 cleanup
+  - 📦 postpackage
 
 .docker_login:
   before_script:
@@ -161,3 +162,23 @@ tag:
 #  only:
 #    - tags
 #  when: manual
+
+build-n-deploy:lib:
+  stage: 📦 postpackage
+  cache:
+    paths:
+      - node_modules/
+  tags:
+    - pp-new-develop
+  script:
+    - yarn
+    - yarn build:sdk
+    - cd dist/libs/client-sdk
+    - timestamp=$(date +%s)
+    - |
+      echo "@782-uforika:registry=https://gitlab.pixelplex.by/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
+      //gitlab.pixelplex.by/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - npm version 0.2.${timestamp}
+    - npm publish
+  only:
+    - develop

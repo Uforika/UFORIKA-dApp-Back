@@ -26,7 +26,10 @@
     "test:e2e": "jest --config ./apps/template/test/jest-e2e.json",
     "type-check": "tsc --pretty --noEmit",
     "audit": "audit-ci --config audit-ci.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prebuild:sdk": "openapi --input https://782-uforika.pixelplex-test.by/api-json/ --output ./libs/client-sdk/src",
+    "build:sdk": "nest build --tsc client-sdk",
+    "postbuild:sdk": "cp libs/client-sdk/package.json dist/libs/client-sdk && cp libs/client-sdk/README.md dist/libs/client-sdk"
   },
   "resolutions": {
     "minimist": "^1.2.6",
@@ -42,6 +45,7 @@
     "@nestjs/swagger": "^5.1.0",
     "@nestjs/typeorm": "^8.0.0",
     "@ppx-node/api-decorators": "^0.1.4",
+    "@ppx-node/openapi-typescript-codegen": "^0.12.4",
     "@sentry/node": "^6.13.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.2",
