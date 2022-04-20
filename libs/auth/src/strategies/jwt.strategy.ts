@@ -11,7 +11,10 @@ import { AUTH_TOKEN_TYPES } from '../constants/token.constants';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly userRepository: AuthLibUsersRepository) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([ExtractJwt.fromAuthHeaderAsBearerToken()]),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        (req): string => req?.cookies?.[AUTH_TOKEN_TYPES.ACCESS_TOKEN],
+      ]),
       ignoreExpiration: false,
       secretOrKey: AUTH.SECRET,
     });
