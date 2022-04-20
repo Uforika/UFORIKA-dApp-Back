@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as config from 'config';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import * as packageJson from '../../../package.json';
 import { AppModule } from './app.module';
 
@@ -23,6 +24,7 @@ async function bootstrap(): Promise<void> {
 
     app.use(cors(corsOptions));
   }
+  app.use(cookieParser());
   const apiPrefix = 'api/v1';
 
   app.setGlobalPrefix(apiPrefix);
