@@ -1,6 +1,8 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { Auth, JwtPayload } from '@libs/auth';
+import { SuccessDTO } from '@libs/dtos';
 import {
   GetMeResponseDTO,
   GetSignMessageResponseDTO,
@@ -9,6 +11,7 @@ import {
   SignInResponseDTO,
 } from '../dtos/auth.controller.dtos';
 import { AuthService } from '../services/auth.service';
+import { clearAuthCookie, setAuthCookieToResponse } from '../helpers/auth-cookie.helpers';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,17 +21,28 @@ export class AuthController {
   @Post('sign-in')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: SignInResponseDTO })
-  async signIn(@Body() { address, signature }: SignInBodyDTO): Promise<SignInResponseDTO> {
+  async signIn(@Res() response: Response, @Body() { address, signature }: SignInBodyDTO): Promise<void> {
     const result = await this.authService.signIn(address, signature);
-    return SignInResponseDTO.fromPain(result);
+    setAuthCookieToResponse(response, result);
+    response.send(SignInResponseDTO.fromPain(result));
   }
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: SignInResponseDTO })
-  async refreshToken(@Body() { refreshToken }: RefreshTokenBodyDTO): Promise<SignInResponseDTO> {
+  async refreshToken(@Res() response: Response, @Body() { refreshToken }: RefreshTokenBodyDTO): Promise<void> {
     const result = await this.authService.refreshToken(refreshToken);
-    return SignInResponseDTO.fromPain(result);
+    setAuthCookieToResponse(response, result);
+    response.send(SignInResponseDTO.fromPain(result));
+  }
+
+  @Post('sign-out')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: SuccessDTO })
+  async signOut(@Res() response: Response, @Body() { refreshToken }: RefreshTokenBodyDTO): Promise<void> {
+    await this.authService.signOut(refreshToken);
+    clearAuthCookie(response);
+    response.send(new SuccessDTO());
   }
 
   @Get('message')

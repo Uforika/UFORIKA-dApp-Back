@@ -122,10 +122,11 @@
       "^@libs/exceptions(|/.*)$": "<rootDir>/libs/exceptions/src/$1",
       "^@libs/auth(|/.*)$": "<rootDir>/libs/auth/src/$1",
       "^@libs/web3(|/.*)$": "<rootDir>/libs/web3/src/$1",
-      "^@libs/repositories(|/.*)$": "<rootDir>/libs/repositories/src/$1"
+      "^@libs/repositories(|/.*)$": "<rootDir>/libs/repositories/src/$1",
+      "^@libs/dtos(|/.*)$": "<rootDir>/libs/dtos/src/$1"
     }
   },
   "lint-staged": {
-    "*.ts": "yarn lint:fix"
+    "*.ts": "eslint --cache"
   }
 }

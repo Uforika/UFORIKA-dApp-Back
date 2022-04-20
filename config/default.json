@@ -19,5 +19,9 @@
   },
   "AUTH": {
     "SECRET": "pPn1RzYVEYS06DAC4rZW"
+  },
+  "COOKIE": {
+    "SAME_SITE": "strict",
+    "SECURE": true
   }
 }

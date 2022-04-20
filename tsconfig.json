@@ -25,7 +25,9 @@
       "@libs/web3": ["libs/web3/src"],
       "@libs/web3/*": ["libs/web3/src/*"],
       "@libs/repositories": ["libs/repositories/src"],
-      "@libs/repositories/*": ["libs/repositories/src/*"]
+      "@libs/repositories/*": ["libs/repositories/src/*"],
+      "@libs/dtos": ["libs/dtos/src"],
+      "@libs/dtos/*": ["libs/dtos/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

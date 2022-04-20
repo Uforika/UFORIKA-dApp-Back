@@ -6,5 +6,9 @@
   },
   "POSTGRES": {
     "HOST": "postgres"
+  },
+  "COOKIE": {
+    "SAME_SITE": "none",
+    "SECURE": true
   }
 }

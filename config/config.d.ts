@@ -24,4 +24,9 @@ declare module 'config' {
     readonly ENABLED: boolean;
     readonly DSN: string;
   };
+
+  export const COOKIE: {
+    readonly SAME_SITE: boolean | 'lax' | 'strict' | 'none';
+    readonly SECURE: boolean;
+  };
 }

@@ -26,4 +26,10 @@ export class AuthService {
   getSignMessage(): string {
     return this.authService.getSignMessage();
   }
+
+  async signOut(refreshToken: string | null): Promise<void> {
+    if (refreshToken) {
+      await this.refreshTokenService.revokeRefreshToken(refreshToken);
+    }
+  }
 }
