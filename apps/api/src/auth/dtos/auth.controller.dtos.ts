@@ -11,8 +11,8 @@ export class SignInBodyDTO {
 }
 
 export class RefreshTokenBodyDTO {
-  @ApiPropertyString()
-  refreshToken: string;
+  @ApiPropertyString({ isOptional: true })
+  refreshToken?: string;
 }
 
 export class SignInResponseDTO implements AuthResponseType {

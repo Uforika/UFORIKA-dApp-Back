@@ -1,8 +1,9 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Auth, JwtPayload } from '@libs/auth';
 import { SuccessDTO } from '@libs/dtos';
+import { AUTH_TOKEN_TYPES } from '@libs/auth/constants/token.constants';
 import {
   GetMeResponseDTO,
   GetSignMessageResponseDTO,
@@ -30,8 +31,13 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: SignInResponseDTO })
-  async refreshToken(@Res() response: Response, @Body() { refreshToken }: RefreshTokenBodyDTO): Promise<void> {
-    const result = await this.authService.refreshToken(refreshToken);
+  async refreshToken(
+    @Req() request: Request,
+    @Res() response: Response,
+    @Body() { refreshToken }: RefreshTokenBodyDTO,
+  ): Promise<void> {
+    const rToken = refreshToken || request.cookies?.[AUTH_TOKEN_TYPES.REFRESH_TOKEN];
+    const result = await this.authService.refreshToken(rToken);
     setAuthCookieToResponse(response, result);
     response.send(SignInResponseDTO.fromPain(result));
   }
