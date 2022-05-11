@@ -20,7 +20,7 @@ export class RefreshTokenService {
 
   async createTokensFromRefreshToken(refreshToken: string): Promise<AuthResponseType> {
     const decodedToken = await this.decodeRefreshToken(refreshToken, false);
-    const user = await this.usersRepository.findOne(decodedToken.id);
+    const user = await this.usersRepository.findActiveOne({ id: decodedToken.id });
     const oldRefreshToken = await this.getRefreshTokenOrFail(decodedToken.id, decodedToken.jwtid);
     const result = await this.refreshTokenRepository.revokeRefreshToken(oldRefreshToken.id);
     if (!result.affected) {

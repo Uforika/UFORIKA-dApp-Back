@@ -27,7 +27,7 @@ export class AuthService {
     if (!this.web3Service.verifySignature(address, signature)) {
       throw new Error('Invalid signature');
     }
-    let user = await this.userRepository.findOne({ address });
+    let user = await this.userRepository.findActiveOne({ address });
     if (!user) {
       user = await this.userRepository.save({
         address: address,
