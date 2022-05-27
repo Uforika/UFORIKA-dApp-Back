@@ -788,10 +788,10 @@
   resolved "https://gitlab.pixelplex.by/api/v4/projects/1652/packages/npm/@ppx-node/api-decorators/-/@ppx-node/api-decorators-0.1.4.tgz#dc74c9f3c1358431b420d2924da8108af8dbc5f4"
   integrity sha1-3HTJ88E1hDG0INKSTagQivjbxfQ=
 
-"@ppx-node/openapi-typescript-codegen@^0.12.5":
-  version "0.12.5"
-  resolved "https://gitlab.pixelplex.by/api/v4/projects/1660/packages/npm/@ppx-node/openapi-typescript-codegen/-/@ppx-node/openapi-typescript-codegen-0.12.5.tgz#23ba4a57dcef9565991b0471abd5927dae2af55c"
-  integrity sha1-I7pKV9zvlWWZGwRxq9WSfa4q9Vw=
+"@ppx-node/openapi-typescript-codegen@^0.12.10":
+  version "0.12.10"
+  resolved "https://gitlab.pixelplex.by/api/v4/projects/1660/packages/npm/@ppx-node/openapi-typescript-codegen/-/@ppx-node/openapi-typescript-codegen-0.12.10.tgz#fb1a680aaa05a662161cc2a5c660616750d7c8c6"
+  integrity sha1-+xpoCqoFpmIWHMKlxmBhZ1DXyMY=
   dependencies:
     "@types/node-fetch" "^2.5.12"
     abort-controller "^3.0.0"
