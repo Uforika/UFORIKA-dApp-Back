@@ -10,5 +10,9 @@
   "COOKIE": {
     "SAME_SITE": "none",
     "SECURE": true
+  },
+  "AUTH": {
+    "ACCESS_TOKEN_EXPIRES_SECS": 30,
+    "REFRESH_TOKEN_EXPIRES_SECS": 1800
   }
 }

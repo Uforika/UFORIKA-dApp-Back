@@ -7,6 +7,7 @@ import { AuthResponseType, RefreshTokenPayload } from '../dtos/jwt.payload.dto';
 import { AuthLibUsersRepository } from '../repositories/auth-lib-users.repository';
 import { AuthLibRefreshTokensRepository } from '../repositories/auth-lib-refresh-tokens.repository';
 import { AUTH_TOKEN_TYPES } from '../constants/token.constants';
+import { ERROR_USER_IS_BLOCKED } from '../constants/error.constants';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -21,6 +22,9 @@ export class RefreshTokenService {
   async createTokensFromRefreshToken(refreshToken: string): Promise<AuthResponseType> {
     const decodedToken = await this.decodeRefreshToken(refreshToken, false);
     const user = await this.usersRepository.findActiveOne({ id: decodedToken.id });
+    if (!user) {
+      throw new UnprocessableEntityError([{ field: 'refreshToken', message: ERROR_USER_IS_BLOCKED }]);
+    }
     const oldRefreshToken = await this.getRefreshTokenOrFail(decodedToken.id, decodedToken.jwtid);
     const result = await this.refreshTokenRepository.revokeRefreshToken(oldRefreshToken.id);
     if (!result.affected) {

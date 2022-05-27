@@ -1,10 +1,6 @@
 import { CookieOptions, Response } from 'express';
-import { COOKIE } from 'config';
-import {
-  AUTH_ACCESS_TOKEN_EXPIRES_SECS,
-  AUTH_REFRESH_TOKEN_EXPIRES_SECS,
-  AUTH_TOKEN_TYPES,
-} from '@libs/auth/constants/token.constants';
+import { COOKIE, AUTH } from 'config';
+import { AUTH_TOKEN_TYPES } from '@libs/auth/constants/token.constants';
 import { SignInResponseDTO } from '../dtos/auth.controller.dtos';
 
 export const prepareAuthCookieOptions = ({
@@ -20,7 +16,7 @@ export const prepareAuthCookieOptions = ({
   ...(rememberMe && {
     expires: new Date(
       Date.now() +
-        (type === AUTH_TOKEN_TYPES.ACCESS_TOKEN ? AUTH_ACCESS_TOKEN_EXPIRES_SECS : AUTH_REFRESH_TOKEN_EXPIRES_SECS) *
+        (type === AUTH_TOKEN_TYPES.ACCESS_TOKEN ? AUTH.ACCESS_TOKEN_EXPIRES_SECS : AUTH.REFRESH_TOKEN_EXPIRES_SECS) *
           1000,
     ),
   }),

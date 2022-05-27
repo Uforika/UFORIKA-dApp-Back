@@ -18,6 +18,8 @@ declare module 'config' {
 
   export const AUTH: {
     readonly SECRET: string;
+    readonly ACCESS_TOKEN_EXPIRES_SECS: number;
+    readonly REFRESH_TOKEN_EXPIRES_SECS: number;
   };
 
   export const SENTRY: {

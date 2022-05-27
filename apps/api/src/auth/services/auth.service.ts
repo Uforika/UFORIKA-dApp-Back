@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AuthService as AuthServiceLib, RefreshTokenService } from '@libs/auth';
-import { AUTH_ERRORS_INVALID_SIGNATURE } from '@libs/constants/form-errors';
 import { UnauthorizedError } from '@libs/exceptions';
 import { SignInResponseDTO } from '../dtos/auth.controller.dtos';
 
@@ -14,7 +13,7 @@ export class AuthService {
     try {
       user = await this.authService.signIn(address, signature);
     } catch (e) {
-      throw new UnauthorizedError([{ field: 'signature', message: AUTH_ERRORS_INVALID_SIGNATURE, details: e.message }]);
+      throw new UnauthorizedError([{ field: 'signature', message: e.message }]);
     }
     return this.authService.createAuthResponse(user.id);
   }

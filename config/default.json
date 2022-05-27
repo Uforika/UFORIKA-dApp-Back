@@ -18,7 +18,9 @@
     "PORT": 3001
   },
   "AUTH": {
-    "SECRET": "pPn1RzYVEYS06DAC4rZW"
+    "SECRET": "pPn1RzYVEYS06DAC4rZW",
+    "ACCESS_TOKEN_EXPIRES_SECS": 600,
+    "REFRESH_TOKEN_EXPIRES_SECS": 7776000
   },
   "COOKIE": {
     "SAME_SITE": "strict",
